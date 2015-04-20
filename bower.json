@@ -1,0 +1,40 @@
+{
+  "name": "angular-hu",
+  "version": "1.0.0-beta1",
+  "authors": [
+    "Javier Mendiara Cañardo <javier.mendiaracanardo@telefonica.com>"
+  ],
+  "description": "Angular http utilities",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "angular",
+    "http",
+    "utilities",
+    "cache",
+    "$http",
+    "interceptors"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/angular-hu/angular-hu",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angular-hu/angular-hu"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": ">= 1.2.7",
+    "oauth-signature-js": "1.2.1",
+    "serialized-lru-cache": "~3.1.0"
+  },
+  "devDependencies": {
+    "angular-mocks": ">=1.2.7"
+  }
+}

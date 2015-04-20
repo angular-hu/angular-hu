@@ -1,0 +1,31 @@
+{
+  "name": "angular-hu-cacherp",
+  "version": "{{version}}",
+  "authors": [
+    "{{&authors}}"
+  ],
+  "description": "Create caches for $http that doesn't take into account some parameters",
+  "main": "cacherp.js",
+  "keywords": [
+    "angular",
+    "utilities",
+    "cache",
+    "$cacheFactory",
+    "http",
+    "$http",
+    "interceptor"
+  ],
+  "repository": {
+    "type": "{{repository.type}}",
+    "url": "{{&repository.url}}"
+  },
+  "license": "{{&license}}",
+  "homepage": "{{&homepage}}",
+  "ignore": [
+    "index.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular": "{{&dependencies.angular}}"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "angular-hu-composite",
+  "version": "{{version}}",
+  "authors": [
+    "{{&authors}}"
+  ],
+  "description": "Group angular interceptors to be traversed on specific backends",
+  "main": "composite.js",
+  "keywords": [
+    "angular",
+    "utilities",
+    "http",
+    "$http",
+    "interceptors"
+  ],
+  "repository": {
+    "type": "{{repository.type}}",
+    "url": "{{&repository.url}}"
+  },
+  "license": "{{&license}}",
+  "homepage": "{{&homepage}}",
+  "ignore": [
+    "index.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular": "{{&dependencies.angular}}"
+  }
+}

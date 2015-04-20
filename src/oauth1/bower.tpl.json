@@ -1,0 +1,30 @@
+{
+  "name": "angular-hu-oauth1",
+  "version": "{{version}}",
+  "authors": [
+    "{{&authors}}"
+  ],
+  "description": "Sign angular requests with Oauth1",
+  "main": "oauth1.js",
+  "keywords": [
+    "angular",
+    "utilities",
+    "http",
+    "$http",
+    "oauth1"
+  ],
+  "repository": {
+    "type": "{{repository.type}}",
+    "url": "{{&repository.url}}"
+  },
+  "license": "{{&license}}",
+  "homepage": "{{&homepage}}",
+  "ignore": [
+    "index.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular": "{{&dependencies.angular}}",
+    "oauth-signature-js": "{{&dependencies.oauth-signature-js}}"
+  }
+}

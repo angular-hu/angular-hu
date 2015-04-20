@@ -1,0 +1,32 @@
+{
+  "name": "angular-hu-urlbuilder",
+  "version": "{{version}}",
+  "authors": [
+    "{{&authors}}"
+  ],
+  "description": "Make totally custom URLs and parameter serialization in your angular requests",
+  "main": "urlbuilder.js",
+  "keywords": [
+    "angular",
+    "utilities",
+    "http",
+    "$http",
+    "serialization",
+    "paramserializer",
+    "buildUrl",
+    "parameter"
+  ],
+  "repository": {
+    "type": "{{repository.type}}",
+    "url": "{{&repository.url}}"
+  },
+  "license": "{{&license}}",
+  "homepage": "{{&homepage}}",
+  "ignore": [
+    "index.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular": "{{&dependencies.angular}}"
+  }
+}

@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+
+var conf = require('./src/config'),
+  program = require('commander'),
+  publish = require('./src/publish');
+
+function fail(err) {
+  console.error(err);
+  process.exit(1);
+}
+
+function success(ret) {
+  ret && console.log(ret);
+  process.exit(0);
+}
+
+program
+  .version(require('../package.json').version);
+
+program
+  .command('bower')
+  .description('Publish modules to bower')
+  .action(function() {
+    publish().bower().then(success, fail);
+  });
+
+//TODO: need to access private definitions in convict, cause conf.toSchemaString()
+//      does not give all needed
+Object.keys(conf._def).forEach(function(paramName) {
+  //TODO: will convict support short options?
+  /*
+   *  --branch <branch>  The branch to put the releases [master]
+   *                     Environment var: SNAPVER_BRANCH
+   */
+  var param = conf._def[paramName];
+  if (!param.arg) {
+    return;
+  }
+  var def = '--' + param.arg + (param.format !== Boolean ?
+    ' <' + paramName + '>' :
+      '');
+  var doc = param.doc + ' [' + param.default + ']';
+  program
+    .option(def, doc)
+    .option('', 'Environment var: ' + conf._def[paramName].env);
+});
+
+
+program.on('--help', function() {
+  console.log('  Examples:');
+  console.log('');
+  console.log('    $ publish bower');
+});
+
+program.parse(process.argv);

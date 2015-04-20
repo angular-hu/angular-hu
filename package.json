@@ -1,0 +1,51 @@
+{
+  "name": "angular-hu",
+  "version": "1.0.0-beta1",
+  "description": "Angular http utilities",
+  "main": "src/httpu.js",
+  "scripts": {
+    "lint": "jscs src && eslint src",
+    "test": "karma start karma-single.conf.js",
+    "watch": "karma start karma-watch.conf.js",
+    "coverage": "karma start karma-coverage.conf.js",
+    "build": "./scripts/build",
+    "publish": "./scripts/publish bower"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:angular-hu/angular-hu.git"
+  },
+  "keywords": [
+    "angular",
+    "http",
+    "utilities",
+    "cache",
+    "$http",
+    "interceptors"
+  ],
+  "author": "Javier Mendiara Cañardo <javier.mendiaracanardo@telefonica.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "bluebird": "^2.9.14",
+    "commander": "^2.7.1",
+    "convict": "^0.6.1",
+    "eslint": "^0.12.0",
+    "fs-extra": "^0.16.5",
+    "gitftw": "^0.1.5",
+    "jscs": "^1.10.0",
+    "jscs-jsdoc": "^0.4.0",
+    "karma": "^0.12.31",
+    "karma-chai-plugins": "^0.2.4",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-cli": "0.0.4",
+    "karma-coverage": "^0.2.7",
+    "karma-firefox-launcher": "^0.1.4",
+    "karma-mocha": "^0.1.10",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-safari-launcher": "^0.1.1",
+    "mocha": "^2.1.0",
+    "mustache": "^1.2.0",
+    "shelljs": "^0.4.0",
+    "uglify-js": "^2.4.17"
+  }
+}

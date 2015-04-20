@@ -1,0 +1,30 @@
+{
+  "name": "angular-hu-headers",
+  "version": "{{version}}",
+  "authors": [
+    "{{&authors}}"
+  ],
+  "description": "Add custom response headers to your angular request to have extra information about it",
+  "main": "headers.js",
+  "keywords": [
+    "angular",
+    "utilities",
+    "http",
+    "$http",
+    "headers",
+    "$httpBackend"
+  ],
+  "repository": {
+    "type": "{{repository.type}}",
+    "url": "{{&repository.url}}"
+  },
+  "license": "{{&license}}",
+  "homepage": "{{&homepage}}",
+  "ignore": [
+    "index.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular": "{{&dependencies.angular}}"
+  }
+}

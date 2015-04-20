@@ -1,0 +1,16 @@
+{
+  "env": {
+    "browser": true
+  },
+  "globals": { //from bower modules
+    "angular": true,
+    "LZString": true,
+    "oauthSignature": true
+  },
+  "rules": {
+    "strict": false,
+    "no-underscore-dangle": false,
+    "no-use-before-define": [2, "nofunc"], //latedef in jshint
+    "quotes": [2, "single"]
+  }
+}

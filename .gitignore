@@ -1,0 +1,15 @@
+node_modules/
+bower_components/
+tmp/
+temp/
+.idea/
+coverage/
+build/
+
+.DS_Store
+npm-debug.log
+
+*~
+*.swp
+*.iml
+*.orig

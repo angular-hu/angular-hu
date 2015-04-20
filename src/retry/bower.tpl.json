@@ -1,0 +1,29 @@
+{
+  "name": "angular-hu-retry",
+  "version": "{{version}}",
+  "authors": [
+    "{{&authors}}"
+  ],
+  "description": "Retry failed request with angular",
+  "main": "retry.js",
+  "keywords": [
+    "angular",
+    "utilities",
+    "http",
+    "$http",
+    "retry"
+  ],
+  "repository": {
+    "type": "{{repository.type}}",
+    "url": "{{&repository.url}}"
+  },
+  "license": "{{&license}}",
+  "homepage": "{{&homepage}}",
+  "ignore": [
+    "index.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular": "{{&dependencies.angular}}"
+  }
+}

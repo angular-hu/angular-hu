@@ -1,0 +1,35 @@
+{
+  "name": "angular-hu-caches",
+  "version": "{{version}}",
+  "authors": [
+    "{{&authors}}"
+  ],
+  "description": "Angular cache that serializes to localStorage, with length, age and compression support",
+  "main": "caches.js",
+  "keywords": [
+    "angular",
+    "utilities",
+    "cache",
+    "lrucache",
+    "$cacheFactory",
+    "http",
+    "$http",
+    "localStorage",
+    "sessionStorage",
+    "compression"
+  ],
+  "repository": {
+    "type": "{{repository.type}}",
+    "url": "{{&repository.url}}"
+  },
+  "license": "{{&license}}",
+  "homepage": "{{&homepage}}",
+  "ignore": [
+    "index.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular": "{{&dependencies.angular}}",
+    "serialized-lru-cache": "{{&dependencies.serialized-lru-cache}}"
+  }
+}
