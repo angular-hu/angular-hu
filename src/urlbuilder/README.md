@@ -39,13 +39,13 @@ angular.module('MyApp')
  function pirateSerializer(params, addKeyValue) {
     //params is the $http request `params` option property
     angular.forEach(params, function(value, key) {
-      addKeyValue('ARR' + key, 'RUM' + value);
+      addKeyValue('ARR' + key, value);
     });
   }
 
   return huURLBuilderFactory(pirateSerializer);
 })
-.run(function($http, huURLBuilderFactory) {
+.run(function($http) {
 
   //Make a request
   $http.get('http://myapi.com/things', {
@@ -55,9 +55,11 @@ angular.module('MyApp')
     //specify the url builder
     buildUrl: 'pirateBuildUrl'
   });
-  // GET http://myapi.com/things?ARRid=RUM5
+  // GET http://myapi.com/things?ARRid=5
 });
 ```
+
+### [Live Example](http://codepen.io/jmendiara/pen/bdGbPN?editors=101)
 
 ### Use cases
 

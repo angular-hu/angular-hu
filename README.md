@@ -25,7 +25,7 @@ bower install angular-hu-retry
 bower install angular-hu-oauth1
 bower install angular-hu-headers
 bower install angular-hu-caches
-bower install angular-hu-serializer
+bower install angular-hu-composite
 bower install angular-hu-urlbuilder
 ```
 
@@ -38,6 +38,9 @@ After installing, HTTP Utils files will be available into a `bower_components` f
 <!-- add your specific module -->
 <script type="text/javascript" src="bower_components/angular-hu-cacherp/cacherp.js"></script>
 <script type="text/javascript" src="bower_components/angular-hu-retry/retry.js"></script>
+<script type="text/javascript" src="bower_components/angular-hu-headers/headers.js"></script>
+<script type="text/javascript" src="bower_components/angular-hu-urlbuilder/urlbuilder.js"></script>
+<script type="text/javascript" src="bower_components/angular-hu-composite/composite.js"></script>
 
 <!-- oauth1 has an external dependency -->
 <script type="text/javascript" src="bower_components/oauth-signature-js/dist/oauth-signature.js"></script>
@@ -45,14 +48,14 @@ After installing, HTTP Utils files will be available into a `bower_components` f
 
 <!-- caches has an external dependency -->
 <script type="text/javascript" src="bower_components/lru-cache/lib/lru-cache.js"></script>
-<script type="text/javascript" src="bower_components/angular-hu-oauth1/oauth1.js"></script>
+<script type="text/javascript" src="bower_components/angular-hu-caches/caches.js"></script>
 <!-- ... -->
 ```
 
 Add the specific modules to your dependencies, or add the entire lib by depending on `httpu`
 
 ```javascript
-angular.module('myApp', ['httpu.cacherp', 'httpu.retry', 'httpu.oauth1', ...]);
+angular.module('myApp', ['httpu.caches', 'httpu.retry', 'httpu.oauth1', ...]);
 ```
 
 Each one is now it's own module and will have a relevant README.md in their respective folders

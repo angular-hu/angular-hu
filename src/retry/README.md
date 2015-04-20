@@ -71,6 +71,8 @@ angular.module('MyApp')
 });
 ```
 
+### [Live example](http://codepen.io/jmendiara/pen/eNYvqO?editors=101)
+
 
 ### Use cases
 

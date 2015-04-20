@@ -56,6 +56,8 @@ angular.module('MyApp')
 });
 ```
 
+### [Live Example](http://codepen.io/jmendiara/pen/jPELOw?editors=101)
+
 ### Use cases
 
 * Your app access several Backends, and have some backend specific interceptors (Authorization, error management...) for each one.

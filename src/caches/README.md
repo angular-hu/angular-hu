@@ -89,6 +89,8 @@ var cache = huCacheSerializableFactory('myCache', {
 
 ```
 
+### [Live Example](http://codepen.io/jmendiara/pen/yNyoMK?editors=101)
+
 ### Use cases
 
 * You want to save caches to a storage to allow returning users to read from them

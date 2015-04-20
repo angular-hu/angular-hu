@@ -55,6 +55,8 @@ angular.module('MyApp')
 });
 ```
 
+### [Live Example](http://codepen.io/jmendiara/pen/MwYveV?editors=101)
+
 ### Use cases
 
 * You have a backend that need variable request parameters, like oauth1 backends, and wanna cache those requests

@@ -43,6 +43,8 @@ angular.module('MyApp')
 });
 ```
 
+### [Live example](http://codepen.io/jmendiara/pen/MwWpzR?editors=101)
+
 ### Use cases
 
 * You want to know the final URL used for your request (this may be computed by $http before leaving to $httpBackend) to  delete cache entries, log them...
