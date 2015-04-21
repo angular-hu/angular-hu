@@ -14,9 +14,21 @@ module.exports = function(conf) {
   config.load(conf || {}).validate();
 
   return {
-    bower: bower
+    bower: bower,
+    cdn: cdn
   };
 };
+
+function cdn() {
+  return Promise.resolve()
+    .then(function() {
+      return getModules();
+    })
+    .map(function(module) {
+      //Until we have cdnjs, we publish to github pages :)
+      return publishCDNGHPages(module);
+    }, {concurrency: 1});
+}
 
 function bower() {
   return Promise.resolve()
@@ -28,19 +40,39 @@ function bower() {
     }, {concurrency: 1});
 }
 
+function publishCDNGHPages(module) {
+  console.error('Publishing %s to github pages (as CDN)', module);
+  var dir = path.join(CLONE_DIRECTORY_BASE, module);
+  return Promise.using(tempDirectory(dir), function(cloneDir) {
+    return Promise.resolve()
+      .then(function() {
+        return cloneRepoForModule(module, cloneDir, 'gh-pages');
+      })
+      .then(function() {
+        return copyModuleFilesToCDNRepo(module, cloneDir);
+      })
+      .then(function(finalDir) {
+        return pushVersion(finalDir);
+      });
+  }).return(module);
+}
+
 function publishModule(module) {
   console.error('Publishing %s to bower', module);
   var dir = path.join(CLONE_DIRECTORY_BASE, module);
   return Promise.using(tempDirectory(dir), function(cloneDir) {
     return Promise.resolve()
       .then(function() {
-        return cloneRepoForModule(module, cloneDir);
+        return cloneRepoForModule(module, cloneDir, 'master');
       })
       .then(function() {
         return copyModuleFilesToRepo(module, cloneDir);
       })
       .then(function() {
         return pushVersion(cloneDir);
+      })
+      .then(function(version) {
+        return tagVersion(version);
       });
   }).return(module);
 }
@@ -50,8 +82,23 @@ function copyModuleFilesToRepo(module, destinationDir) {
   return fse.copyAsync(sourceDir, destinationDir);
 }
 
+function copyModuleFilesToCDNRepo(module, destinationDir) {
+  var sourceDir = path.join(config.get('build'), module);
+  return Promise.using(executionDirectory(sourceDir), function() {
+      return getBowerVersion();
+    })
+    .then(function(version) {
+      return path.join(shelljs.pwd(), destinationDir, 'dist', version);
+    })
+    .then(function(finalDir) {
+      return fse.copyAsync(sourceDir, finalDir)
+        .return(finalDir);
+    });
+}
+
 function pushVersion(directory) {
   return Promise.using(executionDirectory(directory), function() {
+    console.log('aaaa', shelljs.pwd())
     return Promise.resolve()
       .then(function() {
         return getBowerVersion();
@@ -59,9 +106,6 @@ function pushVersion(directory) {
       .then(function(version) {
         return commitAndPush(version)
           .return(version);
-      })
-      .then(function(version) {
-        return tagVersion(version);
       });
   });
 }
@@ -107,11 +151,12 @@ function getBowerVersion() {
     });
 }
 
-function cloneRepoForModule(module, cloneDir) {
+function cloneRepoForModule(module, cloneDir, branch) {
   var repo = 'git@' + config.get('host') + ':' + config.get('owner') + '/bower-' + module + '.git';
   return git.clone({
     repository: repo,
     directory: cloneDir,
+    branch: branch,
     depth: 1
   });
 }

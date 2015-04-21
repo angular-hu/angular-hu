@@ -24,6 +24,13 @@ program
     publish().bower().then(success, fail);
   });
 
+program
+  .command('cdn')
+  .description('Publish modules to the CDN')
+  .action(function() {
+    publish().cdn().then(success, fail);
+  });
+
 //TODO: need to access private definitions in convict, cause conf.toSchemaString()
 //      does not give all needed
 Object.keys(conf._def).forEach(function(paramName) {
@@ -50,6 +57,7 @@ program.on('--help', function() {
   console.log('  Examples:');
   console.log('');
   console.log('    $ publish bower');
+  console.log('    $ publish cdn');
 });
 
 program.parse(process.argv);
