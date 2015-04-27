@@ -72,7 +72,7 @@ function publishModule(module) {
         return pushVersion(cloneDir);
       })
       .then(function(version) {
-        return tagVersion(version);
+        return tagVersion(version, cloneDir);
       });
   }).return(module);
 }
@@ -98,7 +98,6 @@ function copyModuleFilesToCDNRepo(module, destinationDir) {
 
 function pushVersion(directory) {
   return Promise.using(executionDirectory(directory), function() {
-    console.log('aaaa', shelljs.pwd())
     return Promise.resolve()
       .then(function() {
         return getBowerVersion();
@@ -110,9 +109,10 @@ function pushVersion(directory) {
   });
 }
 
-function tagVersion(version) {
+function tagVersion(version, directory) {
   var tag = 'v' + version;
-  return Promise.resolve()
+  return Promise.using(executionDirectory(directory), function() {
+    return Promise.resolve()
     .then(function() {
       return git.tag({
         tag: tag,
@@ -125,6 +125,7 @@ function tagVersion(version) {
         tag: tag
       });
     });
+  });
 }
 
 function commitAndPush(version) {
