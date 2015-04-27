@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Angular-hu by angular-hu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Angular-hu</h1>
+      <h2 class="project-tagline">Angular $http utilities to deal with backends</h2>
+      <a href="https://github.com/angular-hu/angular-hu" class="btn">View on GitHub</a>
+      <a href="https://github.com/angular-hu/angular-hu/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/angular-hu/angular-hu/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="angular-http-utils--" class="anchor" href="#angular-http-utils--" aria-hidden="true"><span class="octicon octicon-link"></span></a>Angular HTTP Utils <a href="https://travis-ci.org/angular-hu/angular-hu"><img src="https://travis-ci.org/angular-hu/angular-hu.svg" alt="Build Status"></a> <a href="https://coveralls.io/r/angular-hu/angular-hu"><img src="https://coveralls.io/repos/angular-hu/angular-hu/badge.svg" alt="Coverage Status"></a>
+</h1>
+
+<p>Angular $http utilities to deal with common problems when accessing backends</p>
+
+<h2>
+<a id="use-cases" class="anchor" href="#use-cases" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use cases</h2>
+
+<p>You want to...</p>
+
+<ul>
+<li>
+<a href="src/caches/">httpu.caches</a>: Save caches to localstorage to allow returning users to read from them; limit the amount of data stored instead of the number of requests; entries to expire after some time; compress the data to allow more request to be cached in the 5MB storage that the browsers are giving; resize your caches with new options for returning visitors.</li>
+<li>
+<a href="src/composite/">httpu.composite</a>: Your app access several Backends, and have some backend specific interceptors (Authorization, error management...) for each one; You have interceptors that implements some plug&amp;play feature, and belongs to a certain module; You download your templates from your server, and query a different API backend using several interceptors</li>
+<li>
+<a href="src/urlbuilder/">httpu.urlbuilder</a>: You have a backend that doesn't understand the current param serialization from angular, and you have to code the serialized url directly in the url used for the request, losing the power of having it as a plain object.</li>
+<li>
+<a href="src/headers/">httpu.headers</a>: Know the final URL used for your request (this may be computed by $http before leaving to $httpBackend) to delete cache entries, log them...; Wanna collect statistics information for your backend responses accessed over the worldwide clients.</li>
+<li>
+<a href="src/cacherp/">httpu.cacherp</a>: You have a backend that need variable request parameters, like oauth1 backends, and wanna cache those requests.</li>
+<li>
+<a href="src/oauth1/">httpu.oauth1</a>: You have one or severals backends that need oauth1 signed request, with different configurations.</li>
+<li>
+<a href="src/retry/">httpu.retry</a>: You have several retry strategies based on some backend specific errors.</li>
+</ul>
+
+<h2>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<p>You can get it from <a href="http://bower.io/">Bower</a></p>
+
+<div class="highlight highlight-sh"><pre><span class="pl-c">## add --save to every command to save to your bower.json</span>
+<span class="pl-c"># Install specific module</span>
+bower install angular-hu-cacherp
+bower install angular-hu-retry
+bower install angular-hu-oauth1
+bower install angular-hu-headers
+bower install angular-hu-caches
+bower install angular-hu-composite
+bower install angular-hu-urlbuilder</pre></div>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>After installing, HTTP Utils files will be available into a <code>bower_components</code> folder, along with its dependencies.</p>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/angular/angular.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+<span class="pl-c">&lt;!-- add your specific module --&gt;</span>
+&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/angular-hu-cacherp/cacherp.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/angular-hu-retry/retry.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/angular-hu-headers/headers.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/angular-hu-urlbuilder/urlbuilder.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/angular-hu-composite/composite.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+
+<span class="pl-c">&lt;!-- oauth1 has an external dependency --&gt;</span>
+&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/oauth-signature-js/dist/oauth-signature.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/angular-hu-oauth1/oauth1.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+
+<span class="pl-c">&lt;!-- caches has an external dependency --&gt;</span>
+&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/lru-cache/lib/lru-cache.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>bower_components/angular-hu-caches/caches.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+<span class="pl-c">&lt;!-- ... --&gt;</span></pre></div>
+
+<p>Add the specific modules to your dependencies, or add the entire lib by depending on <code>httpu</code></p>
+
+<div class="highlight highlight-javascript"><pre>angular.module(<span class="pl-s"><span class="pl-pds">'</span>myApp<span class="pl-pds">'</span></span>, [<span class="pl-s"><span class="pl-pds">'</span>httpu.caches<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>httpu.retry<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>httpu.oauth1<span class="pl-pds">'</span></span>, ...]);</pre></div>
+
+<p>Each one is now it's own module and will have a relevant README.md in their respective folders</p>
+
+<h2>
+<a id="development" class="anchor" href="#development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development</h2>
+
+<h4>
+<a id="single-test" class="anchor" href="#single-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>Single test</h4>
+
+<div class="highlight highlight-sh"><pre>npm run <span class="pl-c1">test</span></pre></div>
+
+<h4>
+<a id="continuous-testing" class="anchor" href="#continuous-testing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Continuous testing</h4>
+
+<p>Will execute karma and watch the files to run the test on every save</p>
+
+<div class="highlight highlight-sh"><pre>npm run watch</pre></div>
+
+<h4>
+<a id="code-coverage" class="anchor" href="#code-coverage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code coverage</h4>
+
+<div class="highlight highlight-sh"><pre>npm run coverage</pre></div>
+
+<h4>
+<a id="coding-guidelines" class="anchor" href="#coding-guidelines" aria-hidden="true"><span class="octicon octicon-link"></span></a>Coding guidelines</h4>
+
+<div class="highlight highlight-sh"><pre>npm run lint</pre></div>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>LICENSE</h2>
+
+<p>The MIT License (<a href="LICENSE">MIT</a>)</p>
+
+<p>Copyright (c) 2015 Telefónica I+D - <a href="http://www.tid.es">http://www.tid.es</a></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/angular-hu/angular-hu">Angular-hu</a> is maintained by <a href="https://github.com/angular-hu">angular-hu</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
