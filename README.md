@@ -1,4 +1,4 @@
-# Angular HTTP Utils
+# Angular HTTP Utils [![Build Status](https://travis-ci.org/angular-hu/angular-hu.svg)](https://travis-ci.org/angular-hu/angular-hu) [![Coverage Status](https://coveralls.io/repos/angular-hu/angular-hu/badge.svg)](https://coveralls.io/r/angular-hu/angular-hu)
 Angular $http utilities to deal with common problems when accessing backends
 
 ## Use cases

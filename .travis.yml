@@ -1,0 +1,21 @@
+language: node_js
+
+node_js:
+  - "0.10"
+
+script: "npm run travis"
+
+cache:
+  directories:
+    - node_modules
+    - bower_components
+
+before_install:
+  - "npm config set spin false"
+  - "npm install -g npm@^2"
+  - "npm --version"
+  - "npm install -g bower"
+
+install:
+  - "npm install"
+  - "bower install"
