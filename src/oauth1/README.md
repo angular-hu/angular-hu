@@ -73,7 +73,7 @@ return huOAuth1InterceptorFactory({
 ```
 
 #### serializer
-Function to convert the request `params` property to a set of `{key, value}` strings. This set *must* be the same that angular is using to generate your URL, so refer to `httpu.serializer` module to make a DRY implementation.
+Function to convert the request `params` property to a set of `{key, value}` strings. This set *must* be the same that angular is using to generate your URL, so refer to `[httpu.urlbuilder](http://angular-hu.github.io/bower-urlbuilder/)` module to make a DRY implementation.
 
 ```js
 function mySerializer(params, addKeyValue) {
