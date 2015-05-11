@@ -1,13 +1,32 @@
 (function(angular) {
   'use strict';
   angular.module('httpu.headers', [])
+    .factory('huFromCache', huFromCache)
     .config(config);
 
-  function config($provide) {
-    $provide.decorator('$httpBackend', ['$delegate', decorator]);
-  }
-  config.$inject = ['$provide'];
+  function huFromCache() {
+    //Cache decorator to add the 'httpu-cached-at' when putting a {key, value}
+    return function(Cache) {
+      var oldPut = Cache.put;
 
+      Cache.put = function(key, value) {
+        if (angular.isArray(value) && angular.isNumber(value[0]) && angular.isObject(value[2])) {
+          value[2]['httpu-cached-at'] = String(Date.now());
+        }
+
+        return oldPut.call(Cache, key, value);
+      };
+
+      return Cache;
+    };
+  }
+
+  config.$inject = ['$provide'];
+  function config($provide) {
+    $provide.decorator('$httpBackend', decorator);
+  }
+
+  decorator.$inject = ['$delegate'];
   function decorator($httpBackend) {
     //ngMock and maybe other decorators can put properties in functions
     //With ES6 proxies it will be easy than this hack

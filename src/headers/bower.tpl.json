@@ -12,7 +12,8 @@
     "http",
     "$http",
     "headers",
-    "$httpBackend"
+    "$httpBackend",
+    "cache"
   ],
   "repository": {
     "type": "{{repository.type}}",

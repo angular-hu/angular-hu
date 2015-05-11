@@ -28,4 +28,27 @@ describe('httpu.headers', function() {
     });
     $timeout.flush();
   }));
+
+  it('should decorate caches to add the timestamp', inject(function(huFromCache, $cacheFactory, $http, $httpBackend, $timeout) {
+
+    var cache = huFromCache($cacheFactory('test'));
+
+    $http.get('/myserver?query', {
+      cache: cache
+    }).then(function(response) {
+      expect(response.headers('BackendHeader')).to.be.eql('xxx');
+      expect(response.headers('httpu-cached-at')).to.not.be.defined;
+    });
+
+    $httpBackend.flush();
+
+    $http.get('/myserver?query', {
+      cache: cache
+    }).then(function(response) {
+      expect(response.headers('BackendHeader')).to.be.eql('xxx');
+      expect(response.headers('httpu-cached-at')).to.be.defined;
+    });
+    $timeout.flush();
+    $httpBackend.verifyNoOutstandingRequest();
+  }));
 });
