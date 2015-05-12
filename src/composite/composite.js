@@ -17,7 +17,8 @@
       var toBackend = [],
         fromBackend = [],
         configuration = angular.extend({
-          flag: null
+          flag: null,
+          backend: null
         }, options);
 
       var interceptor = {
@@ -93,7 +94,9 @@
        * @returns {boolean}
        */
       function appliesChain(config) {
-        return !configuration.flag || (config && angular.isDefined(config[configuration.flag]));
+        return (!configuration.flag && !configuration.backend) ||
+          (config && angular.isDefined(config[configuration.flag])) ||
+          (config && configuration.backend && configuration.backend.test(config.url));
       }
     };
   }

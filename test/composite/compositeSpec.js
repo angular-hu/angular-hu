@@ -1,4 +1,4 @@
-describe('httpu.retry', function() {
+describe('httpu.composite', function() {
   'use strict';
 
   var flag = 'thisTest', i1, i2, $q;
@@ -19,23 +19,28 @@ describe('httpu.retry', function() {
   }
 
   beforeEach(function() {
+    i1 = createInterceptor();
+    i2 = createInterceptor();
     angular.module('thisTest', [])
-      .factory('thisInterceptor', ['$q', 'huComposite', function(_$q_, huComposite) {
+      .factory('flagInterceptor', ['$q', 'huComposite', function(_$q_, huComposite) {
         $q = _$q_;
-        i1 = createInterceptor();
-        i2 = createInterceptor();
-
         return huComposite([
           valueFn(i1),
           valueFn(i2)
         ], {
           flag: flag
         });
+      }])
+      .factory('backendInterceptor', ['huComposite', function(huComposite) {
+
+        return huComposite([
+          valueFn(i1),
+          valueFn(i2)
+        ], {
+          backend: /^\/api/
+        });
       }]);
 
-    module('thisTest', function($httpProvider) {
-      $httpProvider.interceptors.push('thisInterceptor');
-    });
   });
 
 
@@ -45,7 +50,13 @@ describe('httpu.retry', function() {
   }));
 
   describe('Creating composite interceptors', function() {
-    it('should return an interceptor', inject(function(huComposite) {
+    beforeEach(function () {
+      module('thisTest', function ($httpProvider) {
+        $httpProvider.interceptors.push('flagInterceptor');
+      });
+    });
+
+    it('should return an interceptor', inject(function (huComposite) {
       var composite = huComposite([]);
       expect(composite).to.have.property('request').and.to.be.a('function');
       expect(composite).to.have.property('requestError').and.to.be.a('function');
@@ -53,7 +64,7 @@ describe('httpu.retry', function() {
       expect(composite).to.have.property('responseError').and.to.be.a('function');
     }));
 
-    it('should traverse interceptors on request', inject(function($http, $httpBackend) {
+    it('should traverse interceptors on request', inject(function ($http, $httpBackend) {
       $httpBackend.expectGET('/').respond(200, 'OK');
 
       var config = {};
@@ -67,7 +78,7 @@ describe('httpu.retry', function() {
       expect(i2.response).to.have.been.called;
     }));
 
-    it('should traverse interceptors on server error', inject(function($http, $httpBackend) {
+    it('should traverse interceptors on server error', inject(function ($http, $httpBackend) {
       $httpBackend.expectGET('/').respond(400, 'KO');
 
       var config = {};
@@ -81,11 +92,11 @@ describe('httpu.retry', function() {
       expect(i2.responseError).to.have.been.called;
     }));
 
-    it('should traverse interceptors entering on requestError', function() {
-      module(function($httpProvider) {
-        $httpProvider.interceptors.unshift([function() {
+    it('should traverse interceptors entering on requestError', function () {
+      module(function ($httpProvider) {
+        $httpProvider.interceptors.unshift(['$q', function($q) {
           return {
-            request: function(config) {
+            request: function (config) {
               //When rejecting in request, the rejected object
               //will go directly to the first responseError, without passing
               //to the $httpBackend. this last creates the response and adds the
@@ -97,7 +108,7 @@ describe('httpu.retry', function() {
         }]);
       });
 
-      inject(function($http, $rootScope) {
+      inject(function ($http, $rootScope) {
 
         var config = {};
         config[flag] = true;
@@ -114,8 +125,52 @@ describe('httpu.retry', function() {
         expect(i2.responseError).to.have.been.called;
       });
     });
+  });
 
+  describe('Flag interceptors', function() {
+    beforeEach(function() {
+      module('thisTest', function($httpProvider) {
+        $httpProvider.interceptors.push('flagInterceptor');
+      });
+    });
     it('should not apply the composite when the flag is not enabled in config', inject(function($http, $httpBackend) {
+      $httpBackend.expectGET('/').respond(200, 'OK');
+      $http.get('/');
+      $httpBackend.flush();
+
+      expect(i1.request).to.not.have.been.called;
+      expect(i2.request).to.not.have.been.called;
+      expect(i1.response).to.not.have.been.called;
+      expect(i2.response).to.not.have.been.called;
+
+      $httpBackend.expectGET('/').respond(400, 'KO');
+      $http.get('/');
+      $httpBackend.flush();
+
+      expect(i1.responseError).to.not.have.been.called;
+      expect(i2.responseError).to.not.have.been.called;
+    }));
+  });
+
+  describe('Backend interceptors', function() {
+    beforeEach(function() {
+      module('thisTest', function($httpProvider) {
+        $httpProvider.interceptors.push('backendInterceptor');
+      });
+    });
+    it('should apply the composite when requesting the backends', inject(function($http, $httpBackend) {
+      $httpBackend.expectGET('/api').respond(200, 'OK');
+      $http.get('/api');
+      $httpBackend.flush();
+
+      expect(i1.request).to.have.been.called;
+      expect(i2.request).to.have.been.called;
+      expect(i1.response).to.have.been.called;
+      expect(i2.response).to.have.been.called;
+
+    }));
+
+    it('should not apply the composite when requesting other backends', inject(function($http, $httpBackend) {
       $httpBackend.expectGET('/').respond(200, 'OK');
       $http.get('/');
       $httpBackend.flush();
