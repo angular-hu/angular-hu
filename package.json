@@ -1,6 +1,6 @@
 {
   "name": "angular-hu",
-  "version": "1.1.0-beta1",
+  "version": "1.1.0",
   "description": "Angular http utilities",
   "main": "src/httpu.js",
   "scripts": {
