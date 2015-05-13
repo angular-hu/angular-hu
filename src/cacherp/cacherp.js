@@ -53,18 +53,30 @@
    *
    */
   angular.module('httpu.cacherp', [])
-      .factory('huCacherpFactory', httpuCacheRemovableParamsFactory);
+      .factory('huCacherpFactory', httpuCacheRemovableParamsFactory)
+      .factory('huCacherp', httpuCacheRemovableParams);
 
-  httpuCacheRemovableParamsFactory.$inject = ['$injector', '$document'];
+  httpuCacheRemovableParamsFactory.$inject = ['$injector', 'huCacherp'];
+  function httpuCacheRemovableParamsFactory($injector, huCacherp) {
 
-  function httpuCacheRemovableParamsFactory($injector, $document) {
+    return function httpuCacheRemovableParamsFactory(cacheName, options, cacheFactory) {
+      cacheFactory = cacheFactory || $injector.get('$cacheFactory');
+
+      var cache = cacheFactory(cacheName, options),
+          removableParams = (options && options.removableParams) || [];
+      return huCacherp(cache, removableParams);
+    };
+  }
+
+  httpuCacheRemovableParams.$inject = ['$document'];
+  function httpuCacheRemovableParams($document) {
     'use strict';
 
     //URL Parser according to VanillaJS
     //http://vanilla-js.com/
     var parser = $document[0].createElement('a');
 
-    return httpuCacheRemovableParams;
+    return httpuCacheRemovableParamsDecorator;
 
     //////////////////////////
     /**
@@ -154,14 +166,12 @@
           parser.href;
     }
 
-    function httpuCacheRemovableParams(cacheName, options, cacheFactory) {
-      cacheFactory = cacheFactory || $injector.get('$cacheFactory');
+    function httpuCacheRemovableParamsDecorator(cache, removableParams) {
 
-      var cache = cacheFactory(cacheName, options),
-          originalCacheGet = cache.get,
+      var originalCacheGet = cache.get,
           originalCachePut = cache.put,
           originalCacheRemove = cache.remove,
-          removableParams = (options && options.removableParams) || [],
+          originalCacheInfo = cache.info,
           cleanUrl = angular.bind(null, removeParamsFromUrl, removableParams);
 
       cache.get = function huCacherpGet(url) {
@@ -174,6 +184,12 @@
 
       cache.remove = function huCacherpRemove(url) {
         return originalCacheRemove.call(cache, cleanUrl(url));
+      };
+
+      cache.info = function huCacherpInfo() {
+        return angular.extend(originalCacheInfo.call(cache), {
+          removableParams: removableParams
+        });
       };
 
       return cache;

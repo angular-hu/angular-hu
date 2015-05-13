@@ -22,36 +22,41 @@ Add the `httpu.cacherp` dependency to your App Module
 angular.module('MyApp', ['httpu.cacherp']);
 ```
 
-The `huCacherpFactory` dependency is now available
+The `huCacherpFactory` and `huCacherp` and dependencies is now available
 
 ### Usage
 
 ```js
 angular.module('MyApp')
-//Create the same cache a $cacheFactory would create, but this cache will drop 'timestamp' queryParamter from the URL
-.factory('apiCache', function(huCacherpFactory, $cacheFactory) {
-  return huCacherpFactory(
-    'apiCache',  //The cache ID
-    { //options to be passed to the cacheFactory specified below.
-      removableParams: [ //Array with the parameters that wouldnt be taken into account when hitting caches
-        'timestamp' 
-      ],
-      capacity: 10
-    },
-    $cacheFactory  //The cacheFactory that will be used for creating this decorated cache
-  );
+//Decorate a cache but this cache will drop 'timestamp' queryParamter from the URL
+.factory('apiCache', function(huCacherp, $cacheFactory) {
+  //Decorate any cache with an array with the parameters that wouldnt be taken into account when hitting caches
+  return huCacherp($cacheFactory('apiCache'), ['timestamp']);
 })
+//OR Create the same cache a $cacheFactory would create, but this cache will drop 'timestamp' queryParamter from the URL
+.factory('apiCache', function(huCacherpFactory, $cacheFactory) {
+    return huCacherpFactory(
+      'apiCache',  //The cache ID
+      { //options to be passed to the cacheFactory specified below.
+        removableParams: [ //Array with the parameters that wouldnt be taken into account when hitting caches
+          'timestamp'
+        ],
+        capacity: 10
+      },
+      $cacheFactory  //The cacheFactory that will be used for creating this decorated cache
+    );
+  })
 .run(function($http, apiCache) {
   //Make a timestamped request, and cache response for id=5. timestamp param will be removed
   $http.get('http://myapi.com/things?id=5&timestamp=' + Date.now(), {
     cache: apiCache
   });
-  
+
   //this request will hit the cache!!
   $http.get('http://myapi.com/things?id=5&timestamp=' + Date.now() + 1000, {
     cache: apiCache
   });
-  
+
 });
 ```
 
