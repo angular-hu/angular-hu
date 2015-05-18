@@ -1,6 +1,6 @@
 # httpu.headers
 
-Add custom, application headers, to every [$http](https://docs.angularjs.org/api/ng/service/$http)  **response**. Currently, two headers are added:
+Add custom, application headers, to every [$http](https://docs.angularjs.org/api/ng/service/$http)  **response**. Currently, these headers are added:
  * `httpu-request-time`: The time the request took to complete
  * `httpu-request-url`: The url used, with all the parameters
  * `httpu-cached-at`: The time a cached request was added to the cache specified in `$http`
@@ -34,12 +34,10 @@ angular.module('MyApp')
   return huFromCache(cache);
 })
 .run(function($http, myCache) {
-  //Make a timestamped request, and cache response for id=5. timestamp param will be removed
   $http.get('http://myapi.com/things', {
     params: {
       id: 5
-    },
-    cache: myCache
+    }
   }).then(function(response) {
     console.log('The request was to the endopoint: ', response.headers('httpu-request-url'));
     console.log('The request took ', response.headers('httpu-request-time') + 'ms');
