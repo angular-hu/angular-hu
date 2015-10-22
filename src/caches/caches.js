@@ -244,7 +244,11 @@
             lru;
 
         try {
-          lru = JSON.parse(storage.getItem(lruKey));
+          lru = storage.getItem(lruKey);
+          if (angular.isString(lru)) {
+            // make sure string type before JSON.parse
+            lru = JSON.parse(lru);
+          }
         } catch (err) {}
 
         angular.forEach(lru, function iterator(timestamp, key) {
